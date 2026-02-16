@@ -28,7 +28,7 @@
 		$Read = $Query->fetch_assoc();
 		$_SESSION["IdSession"] = $Read["Id"];
 
-		$Sql = "INSERT INTO `logs`(`user_id`, `ip`, `date`, `time_online`, `event`) VALUES ({$id},'{$Ip}','{$DateStart}','00:00:00','пользователь {$login} авторизован')";
+		$Sql = "INSERT INTO `logs`(`IdUser`, `Ip`, `Date`, `TimeOnline`, `Event`) VALUES ({$id},'{$Ip}','{$DateStart}','00:00:00','пользователь {$login} авторизован')";
 		$mysqli->query($Sql);
 	}
 	echo md5(md5($id));
