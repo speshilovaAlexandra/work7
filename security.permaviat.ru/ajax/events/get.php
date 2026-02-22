@@ -3,6 +3,12 @@ require_once("../../settings/connect_datebase.php");
 
 $Sql = "SELECT * FROM `logs` ORDER BY `Date`";
 $Query = $mysqli->query($Sql);
+//открытие отдельного файла для записи
+$logFile = fopen("../../logs.txt", "a");
+
+if (!$logFile) {
+    die("Не удалось открыть файл для логирования.");
+}
 
 $Events = array();
 
@@ -34,9 +40,26 @@ while($Read = $Query->fetch_assoc()) {
         "TimeOnline" => $Read["TimeOnline"],
         "Status" => $Status,
         "Event" => $Read["Event"]
+    );    
+    
+    // запись события
+    $logEntry = sprintf(
+        "[%s] IP: %s | Пользователь: %s | Статус: %s | Событие: %s\n",
+        $Read["Date"],
+        $Read["Ip"],
+        $Read["IdUser"],
+        $Status,
+        $Read["Event"]
     );
+
+    fwrite($logFile, $logEntry);
     array_push($Events, $Event);
 }
-
+// Закрываем файл
+fclose($logFile);
 echo json_encode( $Events, JSON_UNESCAPED_UNICODE);
+
+
+
+
 ?>
