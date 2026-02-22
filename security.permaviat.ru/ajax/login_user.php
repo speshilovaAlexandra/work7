@@ -20,7 +20,7 @@
 		$DateStart = date("Y-m-d H:i:s");
 
 		$Sql = "INSERT INTO `session`(`IdUser`, `Ip`, `DateStart`, `DateNow`) VALUES ({$id}, '{$Ip}',' {$DateStart}',' {$DateStart}')";
-		// echo $Sql;
+		echo $Sql;
 		$mysqli->query($Sql);
 
 		$Sql = "SELECT `Id` FROM `session` WHERE `DateStart` = '{$DateStart}';";
