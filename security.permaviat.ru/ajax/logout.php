@@ -9,16 +9,17 @@
 			"JOIN `users` `users` ON `users`.`id` = `session`.`IdUser` ".
 			"WHERE `session`.`Id` = {$IdSession}";
 	$Query = $mysqli->query($Sql);
-	$Read = $Query->fetch_assoc();
+	$Read = $Query->fetch_array();
 
 	$TimeStart = strtotime($Read["DateStart"]);
 	$TimeNow = time();
 	$Ip = $Read["Ip"];
-	$TimeDelta = gmdate("H:i:s", $TimeDelta - $TimeStart);
-	$DateStart = date("Y-m-d H:i:s");
+	$TimeDelta = gmdate("H:i:s", ($TimeNow - $TimeStart));
+	$Date = date("Y-m-d H:i:s");
 	$Login = $Read["login"];
 
-	$Sql = "INSERT INTO `logs` ( `IdUser`, `Ip`, `Date`, `TimeOnline`, `Event`)
-        VALUES ('{$Ip}', '{$IdUser}', '{$DateStart}', '{$TimeDelta}', 'пользователь {$Login} вышел из акка')";
+	$Sql = "INSERT INTO `logs` ( `Ip`,`IdUser`, `Date`, `TimeOnline`, `Event`)
+        VALUES ('{$Ip}', '{$IdUser}', '{$Date}', '{$TimeDelta}', 'пользователь {$Login} вышел из акка')";
+		$mysqli->query($Sql);
 	session_destroy();
 ?>
